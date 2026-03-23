@@ -8,7 +8,7 @@ ADD --chown=keycloak:keycloak \
   https://github.com/leroyguillaume/keycloak-bcrypt/releases/download/v${KC_BCRYPT_VERSION}/keycloak-bcrypt-${KC_BCRYPT_VERSION}.jar \
   /opt/keycloak/providers/keycloak-bcrypt.jar
 
-RUN /opt/keycloak/bin/kc.sh build
+RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
 ARG KC_VERSION
 FROM quay.io/keycloak/keycloak:${KC_VERSION}
