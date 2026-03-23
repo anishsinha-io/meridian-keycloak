@@ -1,8 +1,7 @@
 ARG KC_VERSION="26.5.6"
-
-FROM quay.io/keycloak/keycloak:${KC_VERSION} AS builder
-
 ARG KC_BCRYPT_VERSION="1.7.0"
+
+FROM quay.io/keycloak/keycloak:${KC_VERSION}
 
 ADD --chown=keycloak:keycloak \
   https://github.com/leroyguillaume/keycloak-bcrypt/releases/download/v${KC_BCRYPT_VERSION}/keycloak-bcrypt-${KC_BCRYPT_VERSION}.jar \
@@ -10,10 +9,4 @@ ADD --chown=keycloak:keycloak \
 
 RUN /opt/keycloak/bin/kc.sh build --db=postgres
 
-ARG KC_VERSION
-FROM quay.io/keycloak/keycloak:${KC_VERSION}
-
-COPY --from=builder /opt/keycloak /opt/keycloak
-
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
-
